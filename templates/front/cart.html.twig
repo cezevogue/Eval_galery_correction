@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    <table class="table table-dark table-striped mt-5 w-75 mx-auto">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prix</th>
+            <th>Photo</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for item in cart %}
+            <tr>
+                <td>{{ item.product.title }}</td>
+                <td>{{ item.product.price }}€</td>
+                <td><img width="100" src="{{ asset('upload/') }}{{ item.product.pictureSrc }} "
+                         alt="{{ item.product.pictureName }}"></td>
+                <td>
+                    <a href="{{ path('cart_remove', {'id': item.product.id, 'target': 'cart'}) }}" class="btn btn-info">Retirer</a>
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4"><h3 class="text-center">Votre panier est vide</h3></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if app.user %}
+        <a href="{{ path('order') }}" class="btn btn-success">Commander </a>
+    {% endif %}
+
+
+
+{% endblock %}
+
+{% block h1 %}
+    {{ title }}
+{% endblock %}
+
+{% block title %}
+    {{ parent() }}{{ title }}
+{% endblock %}

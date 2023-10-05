@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}{{ title }}{% endblock %}
+{% block h1 %}
+    {{ title }}
+{% endblock %}
+
+
+
+{% block body %}
+    <div class="row justify-content-between">
+        {% for product in products %}
+
+
+            <div class="col-md-3 card m-3">
+
+                <div class="card-body">
+                    <img src="{{ asset('upload/') }}{{ product.pictureSrc }}" class="img-top img-fluid"
+                         alt="{{ product.pictureName }}" title="{{ product.pictureName }}">
+                </div>
+
+                <div class="card-body">
+                    <h3 class="card-title">{{ product.title }}</h3>
+                    <h6 class="card-title">{{ product.price }}€</h6>
+                </div>
+
+                {% for category  in product.categories %}
+                    <span class="w-50 mx-auto border text-center mb-1">{{ category.title }}</span>
+                {% endfor %}
+
+
+                <div class="card-body">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                        Description de l'oeuvre
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">Description</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>{{ product.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% set b=0 %}
+                    {% for item in cart %}
+
+                        {% if   item.product.id ==product.id %}
+                            {% set b=1 %}
+
+                        {% endif %}
+                    {% endfor %}
+                    {% if b==0 %}
+                        <a href="{{ path('cart_add', {'id':product.id}) }}"
+                           class="btn btn-info">Ajouter au panier</a>
+                    {% else %}
+                        <a href="{{ path('cart_remove', {'id':product.id, 'target':'home'}) }}"
+                           class="btn btn-warning">Retirer du panier</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+
+
+{% endblock %}

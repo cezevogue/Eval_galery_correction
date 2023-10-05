@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% block h1 %}
+    {{ title }}
+{% endblock %}
+
+{% block title %}
+    {{ parent() }}{{ title }}
+{% endblock %}
+
+{% block body %}
+
+    <table class="table table-dark table-striped mt-5 w-75 mx-auto">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prix</th>
+            <th>Photo</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for item in commandes %}
+            <tr>
+                <td >{{ item.product.title }}</td>
+                <td>{{ item.product.price }}€</td>
+                <td><img width="100" src="{{ asset('upload/') }}{{ item.product.pictureSrc }} " alt="{{ item.product.pictureName }}"></td>
+                <td>{{ item.date | date('d/m/Y') }}</td>
+            </tr>        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
